@@ -503,9 +503,9 @@ elif [[ "$mode1" = "silent" && "$mode2" = "silent" && "$mode3" = "on" ]]; then
 elif [[ "$mode1" = "silent" && "$mode2" = "silent" && "$mode3" = "off" ]]; then
 	# verbose logging off
 	# no echo annoucement
-	chflags -f -R -L nouchg $homefolderdir/;
-	chflags -f -R -L nohidden $homefolderdir/;
-	chflags -f -R -L nouappnd $homefolderdir/;
+	chflags -f -R -L nouchg $homefolderdir/ >> /dev/null 2>&1;
+	chflags -f -R -L nohidden $homefolderdir/ >> /dev/null 2>&1;
+	chflags -f -R -L nouappnd $homefolderdir/ >> /dev/null 2>&1;
 fi
 #------------------------------------------------------------------------------------
 # Define Array (UserList) with List all files located in the folder holding user home folders 
@@ -597,15 +597,15 @@ do
 			# verbose logging off
 			# no echo annoucement
 			# Wipe ACL
-			chflags -f -R -L nouchg $homefolderdir/$userfolder/;
-			chflags -f -R -L nohidden $homefolderdir/$userfolder/;
-			chflags -f -R -L nouappnd $homefolderdir/$userfolder/;
-			chmod -f -RN $homefolderdir/$userfolder/;
+			chflags -f -R -L nouchg $homefolderdir/$userfolder/ >> /dev/null 2>&1;
+			chflags -f -R -L nohidden $homefolderdir/$userfolder/ >> /dev/null 2>&1;
+			chflags -f -R -L nouappnd $homefolderdir/$userfolder/ >> /dev/null 2>&1;
+			chmod -f -RN $homefolderdir/$userfolder/ >> /dev/null 2>&1;
 			# Set Users folder ownership			
-			chown -f -R $userfolder:staff $homefolderdir/$userfolder/;
+			chown -f -R $userfolder:staff $homefolderdir/$userfolder/ >> /dev/null 2>&1;
 			sleep 1;
 			# Set permissions for the Users files
-			chmod -f -R 700 $homefolderdir/$userfolder/;
+			chmod -f -R 700 $homefolderdir/$userfolder/ >> /dev/null 2>&1;
 			sleep 1;
 		# if  [verboseMENU is set(off) and verboseFLAGS is off and logging is on]
 		elif [[ "$mode1" = "silent" && "$mode2" = "silent" && "$mode3" = "on" ]]; then
@@ -802,27 +802,27 @@ for userfolder in "${UserList[@]}"; do
 		elif [[ "$mode1" = "silent" && "$mode2" = "silent" && "$mode3" = "off" ]]; then
 			# verbose logging off
 			# no echo annoucement
-			chflags -f -R -L nouchg $homefolderdir/$userfolder/;
-			chflags -f -R -L nohidden $homefolderdir/$userfolder/;
-			chflags -f -R -L nouappnd $homefolderdir/$userfolder/;
+			chflags -f -R -L nouchg $homefolderdir/$userfolder/ >> /dev/null 2>&1;
+			chflags -f -R -L nohidden $homefolderdir/$userfolder/ >> /dev/null 2>&1;
+			chflags -f -R -L nouappnd $homefolderdir/$userfolder/ >> /dev/null 2>&1;
 			# Write the unknown-files found to a file in /Scripts/temp/
-			find $homefolderdir/$userfolder/ -uid 99 > $TempPath/$userfolder;
+			find $homefolderdir/$userfolder/ -uid 99 > $TempPath/$userfolder >> /dev/null 2>&1;
 			# iterate by reading each line of the temp file
-			count=`(wc -l < $TempPath/$userfolder)`;
+			count=`(wc -l < $TempPath/$userfolder)` >> /dev/null 2>&1;
 			# If its not zero files found, they are passed to while loop
 			if  [ $count != 0 ]; then
 			# If any files are found, then pass to while loop to set permissions		
 				while read line; do
 					# Wiping ACL & Perms
-					chflags -f nouchg "$line";
-					chflags -f nohidden "$line";
-					chflags -f nouappnd "$line";
+					chflags -f nouchg "$line" >> /dev/null 2>&1;
+					chflags -f nohidden "$line" >> /dev/null 2>&1;
+					chflags -f nouappnd "$line" >> /dev/null 2>&1;
 					# Set permissions rwxrwxrwx for each file
-					chmod 777 "$line";
+					chmod 777 "$line" >> /dev/null 2>&1;
 				done < "$TempPath/$userfolder";
 				sleep 3;
 				# Removes temp file created
-				rm "$TempPath/$userfolder";
+				rm "$TempPath/$userfolder" >> /dev/null 2>&1;
 			fi
 		# if  [verboseMENU is set(off) and verboseFLAGS is off and logging is on]
 		elif [[ "$mode1" = "silent" && "$mode2" = "silent" && "$mode3" = "on" ]]; then
@@ -961,8 +961,8 @@ rm -r "$TempPath"
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Unknown User Fix ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv Shared Folder Fix vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 # Fix Shared folder perms
-chown -R $cadmin $homefolderdir/Shared/
-chmod -R 771 $homefolderdir/Shared/
+chown -R $cadmin $homefolderdir/Shared/ >> /dev/null 2>&1
+chmod -R 771 $homefolderdir/Shared/ >> /dev/null 2>&1
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Shared Folder Fix ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv Logging vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 # Comment/Uncomment this section if you wish to enable/disbale record logging
