@@ -406,8 +406,6 @@ elif [[ "$mode1" = "silent" ]]; then
 	esac
 	# set client admin name to set top level folder owner/perms
 	cadmin=$Defaultcadmin
-	# set temporary directory to hold files created by the script
-	TempDir=$DefaultTempDir
 	# sets complete path to temporary folder that is created
 	TempPath=$TempDir$TempFolder
 	#-------------Logging-----------------------------------
@@ -426,6 +424,7 @@ else
 	echo "missing flag perams"
 fi
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Variable Assigment ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+starttime=`date +%s`
 #vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv Set Perms from Array vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 # if  [verboseMENU is set(on) and verboseFLAGS is off and logging is on] or [verboseMENU is set(on) and verboseFLAGS is default(off) and logging is on]
 if [[ "$mode1" = "verbose" && "$mode2" = "silent" && "$mode3" = "on" ]] ||  [[ "$mode1" = "verbose" && "$mode2" = "default" && "$mode3" = "on" ]]; then
@@ -981,15 +980,21 @@ sleep 1;
 if [[ "$flag1" = "verbose" && "$flag2" = "silent" && "$flag3" = "on" ]] ||  [[ "$flag1" = "verbose" && "$flag2" = "default" && "$flag3" = "on" ]]; then
 	# verbose logging on
 	echo "Done." 2>&1 | tee -a $logpath/setallperms.log
-	dateM=`date +%m`
-	dateD=`date +%d`
-	dateMD="$dateM-dateD"
+	stoptime=`date +%s`
+	timesec=$(( ${stoptime}-${starttime} ))
+	timemin=$(( ${timesec}/60 ))
+	echo "Elapsed Time: $timemin min" 2>&1 | tee -a $logpath/setallperms.log
+	dateMDY=`date +"%m_%d_%Y-%Hhr%Mmin"`
 	cp $logpath/setallperms.log $logpath/setallpermsRECENTlog.log;
-	mv $logpath/setallperms.log $logpath/old/setallperms$dateMDlog.log;
+	mv $logpath/setallperms.log $logpath/old/"$dateMDY".log;
 # if  [verboseMENU is set(on) and verboseFLAGS is off and logging is off] or [verboseMENU is set(on) and verboseFLAGS is default(off) and logging is off]
 elif [[ "$flag1" = "verbose" && "$flag2" = "silent" && "$flag3" = "off" ]] ||  [[ "$flag1" = "verbose" && "$flag2" = "default" && "$flag3" = "off" ]]; then
 	# verbose logging off
 	echo "Done."
+	stoptime=`date +%s`
+	timesec=$(( ${stoptime}-${starttime} ))
+	timemin=$(( ${timesec}/60 ))
+	echo "Elapsed Time: $timemin min"
 
 # if  [verboseMENU is set(off) and verboseFLAGS is off and logging is on]
 elif [[ "$flag1" = "silent" && "$flag2" = "silent" && "$flag3" = "on" ]]; then
@@ -1000,11 +1005,13 @@ elif [[ "$flag1" = "silent" && "$flag2" = "silent" && "$flag3" = "on" ]]; then
 elif [[ "$flag1" = "verbose" && "$flag2" = "verbose" && "$flag3" = "on" ]] ||  [[ "$flag1" = "default" && "$flag2" = "vebose" && "$flag3" = "on" ]]; then
 	# verbose logging on
 	echo "ANNOUCEMENT:		Done." 2>&1 | tee -a $logpath/setallperms.log
-	dateM=`date +%m`
-	dateD=`date +%d`
-	dateMD="$dateM-dateD"
+	stoptime=`date +%s`
+	timesec=$(( ${stoptime}-${starttime} ))
+	timemin=$(( ${timesec}/60 ))
+	echo "ANNOUCEMENT:		Elapsed Time: $timemin min" 2>&1 | tee -a $logpath/setallperms.log
+	dateMDY=`date +"%m_%d_%Y-%Hhr%Mmin"`
 	cp $logpath/setallperms.log $logpath/setallpermsRECENTlog.log;
-	mv $logpath/setallperms.log $logpath/old/setallperms$dateMDlog.log;
+	mv $logpath/setallperms.log $logpath/old/"$dateMDY".log;
 # if  verboseMENU is set(on) and verboseFLAGS is on and logging is off] or verboseMENU is default(on) and verboseFLAGS is on and logging is off]
 elif [[ "$flag1" = "verbose" && "$flag2" = "verbose" && "$flag3" = "off" ]] ||  [[ "$flag1" = "default" && "$flag2" = "vebose" && "$flag3" = "off" ]]; then
 	# verbose logging off
@@ -1013,11 +1020,13 @@ elif [[ "$flag1" = "verbose" && "$flag2" = "verbose" && "$flag3" = "off" ]] ||  
 elif [[ "$flag1" = "silent" && "$flag2" = "verbose" && "$flag3" = "on" ]]; then
 	#verbose logging on
 	echo "ANNOUCEMENT:		Done." >> $logpath/setallperms.log
-	dateM=`date +%m`
-	dateD=`date +%d`
-	dateMD="$dateM-dateD"
+	stoptime=`date +%s`
+	timesec=$(( ${stoptime}-${starttime} ))
+	timemin=$(( ${timesec}/60 ))
+	echo "ANNOUCEMENT:		Elapsed Time: $timemin min" >> $logpath/setallperms.log
+	dateMDY=`date +"%m_%d_%Y-%Hhr%Mmin"`
 	cp $logpath/setallperms.log $logpath/setallpermsRECENTlog.log;
-	mv $logpath/setallperms.log $logpath/old/setallperms$dateMDlog.log;
+	mv $logpath/setallperms.log $logpath/old/"$dateMDY".log;
 # if  [verboseMENU is set(off) and verboseFLAGS is on and logging is of]
 elif [[ "$flag1" = "silent" && "$flag2" = "verbose" && "$flag3" = "off" ]]; then
 	# error
