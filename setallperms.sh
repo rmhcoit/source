@@ -961,8 +961,8 @@ rm -r "$TempPath"
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Unknown User Fix ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv Shared Folder Fix vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 # Fix Shared folder perms
-chown -R $cadmin $homefolderdir/Shared/ >> /dev/null 2>&1
-chmod -R 771 $homefolderdir/Shared/ >> /dev/null 2>&1
+chown -R $cadmin $homefolderdir/Shared/ >> /dev/null 2>&1;
+chmod -R 771 $homefolderdir/Shared/ >> /dev/null 2>&1;
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Shared Folder Fix ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv Logging vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 # Comment/Uncomment this section if you wish to enable/disbale record logging
@@ -977,7 +977,12 @@ if [[ "$flag1" = "verbose" && "$flag2" = "silent" && "$flag3" = "on" ]] ||  [[ "
 	stoptime=`date +%s`
 	timesec=$(( ${stoptime}-${starttime} ))
 	timemin=$(( ${timesec}/60 ))
-	echo "Elapsed Time: $timemin min" 2>&1 | tee -a $logpath/setallperms.log
+	if [[ "$timesec" > "60" ]]; then
+		timeelapse="$timemin min"
+	elif [[ "$timesec" < "60" ]]; then
+		timeelapse="$timesec sec"
+	fi
+	echo "Elapsed Time: $timeelapse" 2>&1 | tee -a $logpath/setallperms.log
 	dateMDY=`date +"%m_%d_%Y-%Hhr%Mmin"`
 	cp $logpath/setallperms.log $logpath/setallpermsRECENTlog.log;
 	mv $logpath/setallperms.log $logpath/old/"$dateMDY".log;
@@ -988,7 +993,12 @@ elif [[ "$flag1" = "verbose" && "$flag2" = "silent" && "$flag3" = "off" ]] ||  [
 	stoptime=`date +%s`
 	timesec=$(( ${stoptime}-${starttime} ))
 	timemin=$(( ${timesec}/60 ))
-	echo "Elapsed Time: $timemin min"
+	if [[ "$timesec" > "60" ]]; then
+		timeelapse="$timemin min"
+	elif [[ "$timesec" < "60" ]]; then
+		timeelapse="$timesec sec"
+	fi
+	echo "Elapsed Time: $timeelapse"
 
 # if  [verboseMENU is set(off) and verboseFLAGS is off and logging is on]
 elif [[ "$flag1" = "silent" && "$flag2" = "silent" && "$flag3" = "on" ]]; then
@@ -1002,7 +1012,12 @@ elif [[ "$flag1" = "verbose" && "$flag2" = "verbose" && "$flag3" = "on" ]] ||  [
 	stoptime=`date +%s`
 	timesec=$(( ${stoptime}-${starttime} ))
 	timemin=$(( ${timesec}/60 ))
-	echo "ANNOUCEMENT:		Elapsed Time: $timemin min" 2>&1 | tee -a $logpath/setallperms.log
+	if [[ "$timesec" > "60" ]]; then
+		timeelapse="$timemin min"
+	elif [[ "$timesec" < "60" ]]; then
+		timeelapse="$timesec sec"
+	fi
+	echo "ANNOUCEMENT:		Elapsed Time: $timeelapse" 2>&1 | tee -a $logpath/setallperms.log
 	dateMDY=`date +"%m_%d_%Y-%Hhr%Mmin"`
 	cp $logpath/setallperms.log $logpath/setallpermsRECENTlog.log;
 	mv $logpath/setallperms.log $logpath/old/"$dateMDY".log;
@@ -1010,6 +1025,15 @@ elif [[ "$flag1" = "verbose" && "$flag2" = "verbose" && "$flag3" = "on" ]] ||  [
 elif [[ "$flag1" = "verbose" && "$flag2" = "verbose" && "$flag3" = "off" ]] ||  [[ "$flag1" = "default" && "$flag2" = "vebose" && "$flag3" = "off" ]]; then
 	# verbose logging off
 	echo "ANNOUCEMENT:		Done."
+	stoptime=`date +%s`
+	timesec=$(( ${stoptime}-${starttime} ))
+	timemin=$(( ${timesec}/60 ))
+	if [[ "$timesec" > "60" ]]; then
+		timeelapse="$timemin min"
+	elif [[ "$timesec" < "60" ]]; then
+		timeelapse="$timesec sec"
+	fi
+	echo "ANNOUCEMENT:		Elapsed Time: $timeelapse"
 # if  [verboseMENU is set(off) and verboseFLAGS is on and logging is on]
 elif [[ "$flag1" = "silent" && "$flag2" = "verbose" && "$flag3" = "on" ]]; then
 	#verbose logging on
@@ -1017,7 +1041,12 @@ elif [[ "$flag1" = "silent" && "$flag2" = "verbose" && "$flag3" = "on" ]]; then
 	stoptime=`date +%s`
 	timesec=$(( ${stoptime}-${starttime} ))
 	timemin=$(( ${timesec}/60 ))
-	echo "ANNOUCEMENT:		Elapsed Time: $timemin min" >> $logpath/setallperms.log
+	if [[ "$timesec" > "60" ]]; then
+		timeelapse="$timemin min"
+	elif [[ "$timesec" < "60" ]]; then
+		timeelapse="$timesec sec"
+	fi
+	echo "ANNOUCEMENT:		Elapsed Time: $timeelapse" >> $logpath/setallperms.log
 	dateMDY=`date +"%m_%d_%Y-%Hhr%Mmin"`
 	cp $logpath/setallperms.log $logpath/setallpermsRECENTlog.log;
 	mv $logpath/setallperms.log $logpath/old/"$dateMDY".log;
