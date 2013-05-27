@@ -245,9 +245,9 @@ else
 fi
 # If --admin has arugment the it sets it in Defaultcadmin if not then it uses DefaultAdmin
 if [[ "$flagadmin" = "null" ]]; then
-	Defaultcadmin="calcium"
+	Defaultcadmin="$DefaultAdmin"
 elif [[ "$flagadmin" = "default" ]]; then
-	Defaultcadmin="calcium"
+	Defaultcadmin="$DefaultAdmin"
 else
 	Defaultcadmin="$DefaultAdmin"
 	if [[ "$flagadmin" = "" ]]; then
