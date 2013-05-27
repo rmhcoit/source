@@ -288,11 +288,10 @@ if [[ "$mode1" = "verbose" && "$mode3" = "on" ]] ||  [[ "$mode1" = "default" && 
 	# Set path of the folder holding all user home folders.
 	echo "Where is the users homefolders located?	         (Default = $DefaultPath)" 2>&1 | tee -a $logpath/setallperms.log;
 	read path;
-	if  [[ "$path" == "" ]] 
-		then
-			Path=$DefaultPath
-		else
-			Path=$path
+	if  [[ "$path" == "" ]]; then
+		Path=$DefaultPath
+	else
+		Path=$path
 	fi
 	# Finds if there is a slash a the end of the string and strips it if there is
 	case $Path in
@@ -306,11 +305,10 @@ if [[ "$mode1" = "verbose" && "$mode3" = "on" ]] ||  [[ "$mode1" = "default" && 
 	# Asks for cliend admin name to set top level folder owner/perms
 	echo "What is the short username for the Local Client Administrator?  (Default = $Defaultcadmin)" 2>&1 | tee -a $logpath/setallperms.log;
 	read localclientadmin;
-	if  [[ "$localclientadmin" == "" ]] 
-		then
-			cadmin=$Defaultcadmin
-		else
-			cadmin=$localclientadmin
+	if  [[ "$localclientadmin" == "" ]]; then
+		cadmin=$Defaultcadmin
+	else
+		cadmin=$localclientadmin
 	fi
 	echo "CHOICE:		$cadmin" >> $logpath/setallperms.log 2>&1;
 	echo "" 2>&1 | tee -a $logpath/setallperms.log;
@@ -319,11 +317,10 @@ if [[ "$mode1" = "verbose" && "$mode3" = "on" ]] ||  [[ "$mode1" = "default" && 
 	# Asks temporary folder to hold files created by the script
 	echo "Temporary Folder?  (Default = $DefaultTempDir)" 2>&1 | tee -a $logpath/setallperms.log;
 	read temporaryfolder;
-	if  [[ "$temporaryfolder" == "" ]] 
-		then
-			TempDir=$DefaultTempDir
-		else
-			TempDir=$temporaryfolder
+	if  [[ "$temporaryfolder" == "" ]]; then
+		TempDir=$DefaultTempDir
+	else
+		TempDir=$temporaryfolder
 	fi
 	echo "CHOICE:		$TempDir" >> $logpath/setallperms.log 2>&1;
 	sleep 1;
@@ -350,11 +347,10 @@ elif [[ "$mode1" = "verbose" && "$mode3" = "off" ]] ||  [[ "$mode1" = "default" 
 	# Set path of the folder holding all user home folders.
 	echo "Where is the users homefolders located?	         (Default = $DefaultPath)";
 	read path;
-	if  [[ "$path" == "" ]] 
-		then
-			Path=$DefaultPath
-		else
-			Path=$path
+	if  [[ "$path" == "" ]]; then
+		Path=$DefaultPath
+	else
+		Path=$path
 	fi
 	# Finds if there is a slash a the end of the string and strips it if there is
 	case $Path in
@@ -367,11 +363,10 @@ elif [[ "$mode1" = "verbose" && "$mode3" = "off" ]] ||  [[ "$mode1" = "default" 
 	# Asks for cliend admin name to set top level folder owner/perms
 	echo "What is the short username for the Local Client Administrator?  (Default = $Defaultcadmin)";
 	read localclientadmin;
-	if  [[ "$localclientadmin" == "" ]] 
-		then
-			cadmin=$Defaultcadmin
-		else
-			cadmin=$localclientadmin
+	if  [[ "$localclientadmin" == "" ]]; then
+		cadmin=$Defaultcadmin
+	else
+		cadmin=$localclientadmin
 	fi
 	echo ""
 	echo ""
@@ -379,11 +374,10 @@ elif [[ "$mode1" = "verbose" && "$mode3" = "off" ]] ||  [[ "$mode1" = "default" 
 	# Asks temporary folder to hold files created by the script
 	echo "Temporary Folder?  (Default = $DefaultTempDir)";
 	read temporaryfolder;
-	if  [[ "$temporaryfolder" == "" ]] 
-		then
-			TempDir=$DefaultTempDir
-		else
-			TempDir=$temporaryfolder
+	if  [[ "$temporaryfolder" == "" ]]; then
+		TempDir=$DefaultTempDir
+	else
+		TempDir=$temporaryfolder
 	fi
 	sleep 1;
 	#-------------Logging-----------------------------------
