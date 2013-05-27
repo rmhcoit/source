@@ -82,7 +82,7 @@ flagtempdir="default";
 flagadmin="default";
 flagpath="default";
 
-optstring=svl
+optstring=svlhp:a:t:
 
 unset options
 while (($#)); do
