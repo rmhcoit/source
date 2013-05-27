@@ -32,15 +32,15 @@
 
 #---------------------------- Default Variables --------------------------------
 # Set Default Path for the directory holding all users home folders
-DEFAULTPATH="/Volumes/Shares/Users/"
+DEFAULTPATH=""
 # Set the place to hold logs
-DefaultLogDir="/Users/calcium/Scripts/logs/"
+DefaultLogDir=""
 # and the name of the folder inside the logs directory
 LogFolder="setallperms"
 # Set Default Client Administrators shortusername
-DefaultAdmin="calcium"
+DefaultAdmin=""
 # Set Default path for temporary folder used by the script
-DefaultTEMPDIR="/Users/calcium/Scripts/temp/"
+DefaultTEMPDIR=""
 # Temp folder name
 TempFolder="unknownuserfix"
 #---------------------------- Default Variables --------------------------------
