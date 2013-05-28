@@ -1847,6 +1847,7 @@ fi
 
 if [[ "$uflag" == "on" ]];
 	then
+		UserFolder=$flaguser
 		setoneuserperms
 	# need to pass variable $flaguser to $userfolder:     userfolder=$flaguser??
 elif [[ "$uflag" == "default" ]];
