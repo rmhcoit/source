@@ -30,6 +30,7 @@
 
 
 
+
 postuserinfo ()
 {
 	userID=`dscl /LDAPv3/127.0.0.1 -read /Users/$* UniqueID`; #calls external open directory program
@@ -85,6 +86,12 @@ postallgroupinfo ()
 }
 
 
+main ()
+{
 postallgroupinfo
 exit
+
+
+}
+
 
