@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2013, Chris Waian All rights reserved.
+# Copyright (c) 2013, Chris Waian & Tim Waian All rights reserved.
 # 
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -29,6 +29,87 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
+usage() {
+cat <<'EOF'
+getids [OPTIONS] NAME [...]
+
+Grabs group name, PrimaryGroupID, UniqueID, & GeneratedUID data.
+
+ Options:
+	-h, --help				display this help and exit
+
+	-u, --user				Single User Mode: requires argument
+
+	-g, --group				Single Group Mode: requires argument
+
+	-y, --userall				Lists All User	
+
+	-f, --groupall				Lists All Groups
+EOF
+}
+
+gflag="default";
+uflag="default";
+fflag="default";
+yflag="default";
+
+optstring=gufy
+
+unset options
+while (($#)); do
+  case $1 in
+    -[!-]?*)
+      for ((i=1; i<${#1}; i++)); do
+        c=${1:i:1}
+        options+=("-$c")
+        if [[ $optstring = *"$c:"* && ${1:i+1} ]]; then
+          options+=("${1:i+1}")
+          break
+        fi
+      done
+      ;;
+    --?*=*) options+=("${1%%=*}" "${1#*=}");;
+    --)
+      options+=(--endopts)
+      shift
+      options+=("$@")
+      break
+      ;;
+    *) options+=("$1");;
+  esac
+
+  shift
+done
+
+set -- "${options[@]}"
+unset options
+
+while [[ $1 = -?* ]]; do
+  case $1 in
+    -g|--group)
+      gflag="on";
+      arggroup=$2;
+      shift;
+      ;;
+    -u|--user)
+      uflag="on";
+      arguser=$2;
+      shift;
+      ;;
+    -f|--groupall)
+      fflag="on";
+      ;;
+    -y|--userall)
+      yflag="on";
+      ;;
+    -h|--help) usage >&2; exit 0;;
+    --endopts) shift; break;;
+    *) die "invalid option: $1";;
+  esac
+
+  shift
+done
+
 
 
 postuserinfo ()
@@ -36,9 +117,9 @@ postuserinfo ()
 	userID=`dscl /LDAPv3/127.0.0.1 -read /Users/$* UniqueID`; #calls external open directory program
 	#reads user data into var
 	userGUID=`dscl /LDAPv3/127.0.0.1 -read /Users/$* GeneratedUID`; #calls external open directory program
-	echo "   User Name: 		$*";
-	echo "    UniqueID: 		${userID:10}";
-	echo "GeneratedUID: 		${userGUID:14}";
+	echo "   User Name:	$*";
+	echo "    UniqueID:	${userID:10}";
+	echo "GeneratedUID:	${userGUID:14}";
 }
 
 postalluserinfo ()
@@ -59,14 +140,15 @@ postalluserinfo ()
 }
 
 
+
 postgroupinfo ()
 {
 	groupID=`dscl /LDAPv3/127.0.0.1 -read /Groups/$* PrimaryGroupID`; #calls external open directory program
 	#reads group data into var
 	groupGUID=`dscl /LDAPv3/127.0.0.1 -read /Groups/$* GeneratedUID`; #calls external open directory program
-	echo "    Group Name: 		$*";
-	echo "PrimaryGroupID: 		${groupID:16}";
-	echo "  GeneratedUID: 		${groupGUID:14}";
+	echo "    Group Name:	$*";
+	echo "PrimaryGroupID:	${groupID:16}";
+	echo "  GeneratedUID:	${groupGUID:14}";
 }
 
 postallgroupinfo ()
@@ -76,7 +158,7 @@ postallgroupinfo ()
 	 for var in "${grouplistall[@]}";
 	 do
 	 	if [[ "$var" = com.* ]]; then #ignoring anything that starts with: com.
-	 		echo "do nothing" >> /dev/null
+	 		echo "do nothing" >> /dev/null;
 	 	else
 	 		postgroupinfo "$var"; #iterates each entry in the array
 	 		echo "";
@@ -86,12 +168,35 @@ postallgroupinfo ()
 }
 
 
+
+
 main ()
 {
-postallgroupinfo
-exit
 
-
+if [[ "$gflag" = "on" ]] && [[ "$uflag" = "default" ]] && [[ "$fflag" = "default" ]] && [[ "$yflag" = "default" ]]; then
+	if [[ "$arggroup" = "" ]]; then
+		echo "error: arguments required";
+		exit;
+	else
+		postgroupinfo  $arggroup;
+	fi
+elif [[ "$gflag" = "default" ]] && [[ "$uflag" = "on" ]] && [[ "$fflag" = "default" ]] && [[ "$yflag" = "default" ]]; then
+	if [[ "$arguser" = "" ]]; then
+		echo "error: arguments required";
+		exit;
+	else
+		postuserinfo $arguser;
+	fi
+elif [[ "$gflag" = "default" ]] && [[ "$uflag" = "default" ]] && [[ "$fflag" = "on" ]] && [[ "$yflag" = "default" ]]; then
+postallgroupinfo;
+elif [[ "$gflag" = "default" ]] && [[ "$uflag" = "default" ]] && [[ "$fflag" = "default" ]] && [[ "$yflag" = "on" ]]; then
+postalluserinfo;
+else
+	echo "error: too many options";
+	exit;
+fi
 }
 
+main;
 
+exit;
