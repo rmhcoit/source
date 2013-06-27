@@ -31,7 +31,7 @@
 # reused file / semi-perm log
 temppath="/Users/calcium/Scripts/logs/getids"
 path="$temppath/getids.log"
-
+starttime=`date +%s`;
 
 usage() {
 cat <<'EOF'
@@ -202,8 +202,20 @@ fi
 }
 
 
-echo "" > $path;
+`date` > $path;
 main | tee -a $path;
 open -t $path;
+
+
+endtime=`date +%s`;
+timesec=$(( ${endtime}-${starttime} ));
+timemin=$(( ${timesec}/60 ));
+if [[ "$timesec" -gt "60" ]]; then
+	timeelapse="$timemin min";
+elif [[ "$timesec" -lt "60" ]]; then
+	timeelapse="$timesec sec";
+fi
+echo "$timeelapse time has elapsed.";
+
 
 exit;
