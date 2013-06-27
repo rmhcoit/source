@@ -28,6 +28,10 @@
 # NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+# reused file / semi-perm log
+temppath="/Users/calcium/Scripts/logs/getids"
+path="$temppath/getids.log"
+
 
 usage() {
 cat <<'EOF'
@@ -197,6 +201,9 @@ else
 fi
 }
 
-main;
+
+echo "" > $path;
+main | tee -a $path;
+open -t $path;
 
 exit;
