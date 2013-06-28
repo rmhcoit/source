@@ -31,7 +31,8 @@
 # reused file / semi-perm log
 temppath="/Users/calcium/Scripts/logs/getids"
 path="$temppath/getids.log"
-starttime=`date +%s`;
+starttime=`date +%s`
+date=`date`
 
 usage() {
 cat <<'EOF'
@@ -202,7 +203,8 @@ fi
 }
 
 
-`date` > $path;
+echo "$date" > $path;
+echo "" >> $path
 main | tee -a $path;
 open -t $path;
 
